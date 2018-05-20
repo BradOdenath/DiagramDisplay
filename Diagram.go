@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 const (
@@ -98,7 +97,7 @@ type BubbleReference struct {
 //BubbleReference: Add a child node.
 func (br *Bubble) AppendPossibility(b Bubble) {
 	br.connection.children = append(br.connection.children, b)
-	log.Println(br.connection.children)
+	//fmt.Println(br.connection.children)
 	//b.connection.parent = br
 }
 
@@ -118,15 +117,15 @@ func CreateBubble(blur string, statement string) Bubble {
 func (b Bubble) RepresentBubble(ind uint64) {
 	if !(b.IsDisplayed()) {
 		fmt.Println(Indent(ind), b.blurb, "-", b.statement)
-		//fmt.Println(Indent(ind*2), ":Directions:")
 
 		//Append the ID, probably should be it's own function.
 		displayIDs = append(displayIDs, b.id)
 
 		//Recursively print the rest ignoring the ones that exist.
 		if b.HasPossibilities() {
-			for i, c := range b.connection.children {
-				c.connection.children[i].RepresentBubble(ind+INDENT_SIZE)
+			for i := range b.connection.children {
+				fmt.Println(i)
+				b.connection.children[i].RepresentBubble(ind+INDENT_SIZE)
 			}
 		}
 	}
@@ -137,8 +136,9 @@ func (b Bubble) IsConditionalBubble() bool {
 	return len(b.connection.children) > 1
 }
 
+
 func (b Bubble) HasPossibilities() bool {
-	return len(b.connection.children) <= 0
+	return len(b.connection.children) > 0
 }
 
 func (b Bubble) IsDisplayed() bool {
